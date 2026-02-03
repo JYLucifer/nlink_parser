@@ -1,37 +1,40 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 project(serial LANGUAGES CXX)
 
-# ========== asio ==========
-include(FetchContent)
-
-FetchContent_Declare(
-  asio
-  GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-  GIT_TAG asio-1-34-2
-)
-
-FetchContent_MakeAvailable(asio)
-
-# asio 是 header-only
 add_library(asio INTERFACE)
 
-
 target_include_directories(asio INTERFACE
-  ${asio_SOURCE_DIR}/asio/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../asio/asio/include
 )
 
-# ========== serial 库 ==========
-add_library(serial
-  serial_port.cpp
+target_compile_definitions(asio INTERFACE
+  ASIO_STANDALONE
 )
 
-target_include_directories(serial
-  PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
+add_library(serial STATIC)
+
+set_target_properties(serial PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
 )
 
-target_link_libraries(serial
-  PUBLIC asio
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(serial PRIVATE
+    -Wno-unused-but-set-variable    
+    -Wno-sign-compare              
+  )
+endif()
+
+target_sources(serial PRIVATE
+  src/serial_port.cpp
+)
+
+target_include_directories(serial PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(serial PUBLIC
+  asio
 )
 
 target_compile_features(serial PUBLIC cxx_std_17)

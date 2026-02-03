@@ -1,4 +1,4 @@
-#include "serial_port.hpp"
+#include "serial/serial_port.hpp"
 
 SerialPort::SerialPort(asio::io_context &ioc, const std::string &port_name,
                        int baud_rate, data_ready_cb_f cb, int rx_buf_size)

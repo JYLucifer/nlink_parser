@@ -47,6 +47,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 
 add_subdirectory(extern/serial)
+
 add_subdirectory(src/nlink_utils)
 
 add_executable(tofsense_node
