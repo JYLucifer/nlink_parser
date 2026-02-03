@@ -1,15 +1,14 @@
+// ==================【修正】使用指针传递 ==================
 #include "nlink_utils/init_serial.h"   
 #include <rclcpp/rclcpp.hpp>           
 #include <string>                     
-
-
 #include "serial/serial_port.hpp"
 
 // 全局io_context，用于所有串口实例
 asio::io_context g_ioc;
 
 void initSerial(
-  SerialPort *serial,  // 改为SerialPort指针
+  SerialPort *serial,  // SerialPort指针
   const rclcpp::Node::SharedPtr &node
 ) {
   try {
@@ -29,12 +28,11 @@ void initSerial(
       baud_rate
     );
 
-    // 使用SerialPort的构造函数，它会自动完成端口配置
-    // 注意：SerialPort在构造时就会尝试打开串口
-    *serial = SerialPort(g_ioc, port_name, baud_rate,
+    // ==================【关键修改】使用placement new在已有内存上构造对象 ==================
+    // 而不是尝试赋值
+    new(serial) SerialPort(g_ioc, port_name, baud_rate,
         [node](const std::string& data) {
             // 数据接收回调函数
-            // 这里可以处理接收到的串口数据
             RCLCPP_DEBUG(node->get_logger(), "Received %zu bytes", data.size());
         }
     );
@@ -55,13 +53,10 @@ void initSerial(
   }
 }
 
-// 添加io_context运行函数（需要在主线程中调用）
 void runSerialIO() {
-    // 运行io_context来处理异步操作
     g_ioc.run();
 }
 
-// 停止串口IO（在程序退出时调用）
 void stopSerialIO() {
     g_ioc.stop();
 }
