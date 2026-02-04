@@ -1,7 +1,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include "linktrack_node/linktrackinit.h"
 #include "nlink_utils/init_serial.h"
-#include "protocol_extracter/nprotocol_extracter.h"
+#include "nprotocol_extracter.h"
 #include <iomanip>
 #include <iostream>
 #include <memory>

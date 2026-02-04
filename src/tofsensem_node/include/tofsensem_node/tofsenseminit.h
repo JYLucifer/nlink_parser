@@ -1,7 +1,7 @@
 #ifndef TOFSENSEMINIT_H
 #define TOFSENSEMINIT_H
 
-#include "protocol_extracter/nprotocol_extracter.h"
+#include "nprotocol_extracter.h"
 #include "nlink_parser/msg/tofsense_m_frame0.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <unordered_map>

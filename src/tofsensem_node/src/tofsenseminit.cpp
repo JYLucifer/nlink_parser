@@ -1,7 +1,7 @@
 #include "tofsensem_node/tofsenseminit.h"
 #include "nlink_utils/nlink_protocol.h"
-#include "nlink_unpack/nlink_tofsensem_frame0.h"
-#include "nlink_unpack/nlink_utils.h"
+#include "nlink_tofsensem_frame0.h"
+#include "nlink_utils.h"
 #include "nlink_utils/nutils.h"
 
 namespace

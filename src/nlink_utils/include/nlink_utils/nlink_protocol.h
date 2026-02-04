@@ -2,7 +2,7 @@
 #define NLINK_PROTOCOL_H
 #include <functional>
 
-#include "protocol_extracter/nprotocol_base.h"
+#include "nprotocol_base.h"
 
 class NLinkProtocol : public NProtocolBase {
 public:

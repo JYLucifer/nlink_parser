@@ -5,7 +5,7 @@
 #include <unordered_map>
 class SerialPort;
 
-#include "protocol_extracter/nprotocol_extracter.h"
+#include "nprotocol_extracter.h"
 #include "nlink_utils/nlink_protocol.h"
 #include "std_msgs/msg/string.hpp"
 #include "nlink_parser/msg/linktrack_aoa_nodeframe0.hpp"
