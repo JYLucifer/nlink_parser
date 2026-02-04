@@ -38,12 +38,12 @@ nlink_parser::msg::LinktrackNodeframe5 g_msg_nodeframe5;
 nlink_parser::msg::LinktrackNodeframe6 g_msg_nodeframe6;
 nlink_parser::msg::LinktrackNodeframe7 g_msg_nodeframe7;
 
-static SerialPort* serial_ = nullptr; // 修改类型
+static SerialPort* serial_ = nullptr;
 
 Init::Init(
     rclcpp::Node::SharedPtr node,
     NProtocolExtracter* protocol_extraction,
-    SerialPort* serial) : node_(node) // 参数类型已改
+    SerialPort* serial) : node_(node)
 {
     serial_ = serial;
     initDataTransmission();
@@ -63,8 +63,6 @@ static void DTCallback(const std_msgs::msg::String::SharedPtr msg)
 {
     if (serial_)
     {
-        // SerialPort的write方法直接接受std::string
-        // 数据已经是std::string，无需转换
         serial_->write(msg->data);
     }
 }
@@ -260,13 +258,13 @@ void Init::initNodeFrame2(NProtocolExtracter* protocol_extraction)
         linktrack::g_msg_nodeframe2.local_time = data.local_time;
         linktrack::g_msg_nodeframe2.system_time = data.system_time;
         linktrack::g_msg_nodeframe2.voltage = data.voltage;
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.pos_3d, data.pos_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.eop_3d, data.eop_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.vel_3d, data.vel_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.imu_gyro_3d, data.imu_gyro_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.imu_acc_3d, data.imu_acc_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.angle_3d, data.angle_3d)
-        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.quaternion, data.quaternion)
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.pos_3d, data.pos_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.eop_3d, data.eop_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.vel_3d, data.vel_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.imu_gyro_3d, data.imu_gyro_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.imu_acc_3d, data.imu_acc_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.angle_3d, data.angle_3d);
+        ARRAY_ASSIGN(linktrack::g_msg_nodeframe2.quaternion, data.quaternion);
 
         msg_nodes.resize(data.valid_node_count);
         for (size_t i = 0; i < data.valid_node_count; ++i)
@@ -514,4 +512,4 @@ void Init::initNodeFrame7(NProtocolExtracter* protocol_extraction)
     });
 }
 
-} // namespace linktrack
+}  /* namespace linktrack */

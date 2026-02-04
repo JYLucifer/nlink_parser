@@ -2,7 +2,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <string>
 
-// 全局io_context定义
 asio::io_context g_ioc;
 
 std::unique_ptr<SerialPort> initSerial(
@@ -13,7 +12,6 @@ std::unique_ptr<SerialPort> initSerial(
         std::string port_name;
         int baud_rate;
 
-        // 声明和获取参数
         node->declare_parameter<std::string>("port_name", "/dev/ttyUSB0");
         node->declare_parameter<int>("baud_rate", 921600);
         node->get_parameter("port_name", port_name);
@@ -22,13 +20,11 @@ std::unique_ptr<SerialPort> initSerial(
         RCLCPP_INFO(node->get_logger(), "尝试以 %s,%d 打开串口", 
                    port_name.c_str(), baud_rate);
 
-        // 创建并返回SerialPort智能指针
         auto serial = std::make_unique<SerialPort>(
             g_ioc, 
             port_name, 
             baud_rate,
             data_callback ? data_callback : [node](const std::string& data) {
-                // 默认回调：只是记录数据
                 RCLCPP_DEBUG(node->get_logger(), "收到 %zu 字节数据", data.size());
             }
         );
