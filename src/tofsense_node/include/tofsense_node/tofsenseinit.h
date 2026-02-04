@@ -2,31 +2,31 @@
 #define TOFSENSEINIT_H
 
 #include <rclcpp/rclcpp.hpp>
-#include <serial/serial.h>
-
 #include <map>
 #include <unordered_map>
-
 #include "protocol_extracter/nprotocol_extracter.h"
 #include "nlink_parser/msg/tofsense_frame0.hpp"
 #include "nlink_parser/msg/tofsense_cascade.hpp"
 
+// 前向声明新的 SerialPort 类（替代 serial::Serial）
+class SerialPort;
+
 namespace tofsense
 {
-
     class Init
     {
     public:
+        // ==================【关键修改】使用 SerialPort* 替代 serial::Serial* ==================
         explicit Init(
             rclcpp::Node::SharedPtr node,
             NProtocolExtracter *protocol_extraction,
-            serial::Serial *serial);
+            SerialPort *serial);  // 改为 SerialPort*
 
     private:
         void InitFrame0(NProtocolExtracter *protocol_extraction);
 
         rclcpp::Node::SharedPtr node_;
-        serial::Serial *serial_;
+        SerialPort *serial_;  // 改为 SerialPort*
 
         std::unordered_map<
             NProtocolBase *,

@@ -1,28 +1,45 @@
 #include <rclcpp/rclcpp.hpp>
-
 #include "tofsense_node/tofsenseinit.h"
 #include "nlink_utils/init_serial.h"
 #include "protocol_extracter/nprotocol_extracter.h"
+#include <memory>
+#include <thread>
+
+// 声明全局io_context
+extern asio::io_context g_ioc;
 
 int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
-  auto node = rclcpp::Node::make_shared("tofsense_parser");
-  serial::Serial serial;
-  initSerial(&serial,node);
+  auto node = std::make_shared<rclcpp::Node>("tofsense_parser");
+  
+  // 创建协议解析器
+  auto extracter = std::make_shared<NProtocolExtracter>();
+  
+  // 使用新的异步initSerial函数
+  auto serial = initSerial(node, [extracter](const std::string& data) {
+      extracter->AddNewData(data);
+  });
+  
+  // 创建Init对象，传入SerialPort指针
+  tofsense::Init init(node, extracter.get(), serial.get());
+  
+  // 在独立线程中运行IO上下文
+  std::thread io_thread([]() {
+      g_ioc.run();
+  });
 
-  NProtocolExtracter extracter;
-  tofsense::Init init(node, &extracter, &serial);
+  RCLCPP_INFO(node->get_logger(), "TofSense节点已启动（异步串口模式）");
+
   rclcpp::Rate rate(1000);
   while (rclcpp::ok()) {
-    auto available_bytes = serial.available();
-    if (available_bytes) {
-      std::string str_received;
-      serial.read(str_received, available_bytes);
-      extracter.AddNewData(str_received);
-    }
     rclcpp::spin_some(node);
     rate.sleep();
   }
+
+  // 清理资源
   rclcpp::shutdown();
+  g_ioc.stop();
+  io_thread.join();
+  
   return 0;
 }

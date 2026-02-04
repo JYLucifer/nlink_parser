@@ -10,7 +10,7 @@
 #include "nlink_parser/msg/linktrack_nodeframe6.hpp"
 #include "nlink_parser/msg/linktrack_nodeframe7.hpp"
 #include "nlink_parser/msg/linktrack_tagframe0.hpp"
-
+#include "serial/serial_port.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include "std_msgs/msg/string.hpp"
 
@@ -38,12 +38,12 @@ nlink_parser::msg::LinktrackNodeframe5 g_msg_nodeframe5;
 nlink_parser::msg::LinktrackNodeframe6 g_msg_nodeframe6;
 nlink_parser::msg::LinktrackNodeframe7 g_msg_nodeframe7;
 
-serial::Serial* serial_;
+static SerialPort* serial_ = nullptr; // 修改类型
 
 Init::Init(
     rclcpp::Node::SharedPtr node,
     NProtocolExtracter* protocol_extraction,
-    serial::Serial* serial) : node_(node)
+    SerialPort* serial) : node_(node) // 参数类型已改
 {
     serial_ = serial;
     initDataTransmission();
@@ -61,9 +61,11 @@ Init::Init(
 
 static void DTCallback(const std_msgs::msg::String::SharedPtr msg)
 {
-    if (linktrack::serial_)
+    if (serial_)
     {
-        linktrack::serial_->write(msg->data);
+        // SerialPort的write方法直接接受std::string
+        // 数据已经是std::string，无需转换
+        serial_->write(msg->data);
     }
 }
 

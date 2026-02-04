@@ -1,9 +1,9 @@
 #include "tofsense_node/tofsenseinit.h"
-
 #include "nlink_utils/nlink_protocol.h"
 #include "nlink_unpack/nlink_tofsense_frame0.h"
 #include "nlink_unpack/nlink_utils.h"
 #include "nlink_utils/nutils.h"
+#include "serial/serial_port.hpp"  // 包含新的SerialPort头文件
 
 class NTS_ProtocolFrame0 : public NLinkProtocol {
 public:
@@ -35,10 +35,11 @@ struct {
 } g_command_read;
 #pragma pack(pop)
 
+// ==================【关键修改】构造函数使用 SerialPort* ==================
 Init::Init(
     rclcpp::Node::SharedPtr node,
     NProtocolExtracter *protocol_extraction,
-    serial::Serial *serial)
+    SerialPort *serial)  // 改为 SerialPort*
     : node_(node), serial_(serial) {
 
   is_inquire_mode_ =
@@ -84,7 +85,7 @@ void Init::InitFrame0(NProtocolExtracter *protocol_extraction) {
     }
   });
 
-  if (is_inquire_mode_) {
+  if (is_inquire_mode_ && serial_) {
     timer_scan_ = node_->create_wall_timer(
         std::chrono::milliseconds(1000 / frequency_),
         [this]() {
@@ -110,7 +111,15 @@ void Init::InitFrame0(NProtocolExtracter *protocol_extraction) {
             auto data =
                 reinterpret_cast<uint8_t *>(&g_command_read);
             NLink_UpdateCheckSum(data, sizeof(g_command_read));
-            serial_->write(data, sizeof(g_command_read));
+            
+            // ==================【关键修改】使用 SerialPort 的写入接口 ==================
+            if (serial_) {
+              // 将 uint8_t* 转换为 std::string
+              std::string write_data(reinterpret_cast<const char*>(data), sizeof(g_command_read));
+              serial_->write(write_data);  // 使用新的 write 接口
+            }
+            // ==================【修改结束】==================
+            
             ++node_index_;
           }
         });
