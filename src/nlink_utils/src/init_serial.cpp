@@ -17,7 +17,7 @@ std::unique_ptr<SerialPort> initSerial(
         node->get_parameter("port_name", port_name);
         node->get_parameter("baud_rate", baud_rate);
 
-        RCLCPP_INFO(node->get_logger(), "尝试以 %s,%d 打开串口", 
+        RCLCPP_INFO(node->get_logger(), "try to open serial port with %s,%d", 
                    port_name.c_str(), baud_rate);
 
         auto serial = std::make_unique<SerialPort>(
@@ -25,15 +25,15 @@ std::unique_ptr<SerialPort> initSerial(
             port_name, 
             baud_rate,
             data_callback ? data_callback : [node](const std::string& data) {
-                RCLCPP_DEBUG(node->get_logger(), "收到 %zu 字节数据", data.size());
+                RCLCPP_DEBUG(node->get_logger(), "Received %zu bytes of data", data.size());
             }
         );
 
-        RCLCPP_INFO(node->get_logger(), "串口初始化成功（基于Asio）");
+        RCLCPP_INFO(node->get_logger(), "Serial port opened successfully, waiting for data.");
         return serial;
 
     } catch (const std::exception &e) {
-        RCLCPP_ERROR(node->get_logger(), "串口初始化失败: %s", e.what());
+        RCLCPP_ERROR(node->get_logger(), "Unhandled Exception: %s", e.what());
         throw;
     }
 }

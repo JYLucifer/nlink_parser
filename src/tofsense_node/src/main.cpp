@@ -21,15 +21,17 @@ int main(int argc, char ** argv)
     {
         g_ioc.run();
     });
-    RCLCPP_INFO(node->get_logger(), "TofSense节点已启动（异步串口模式）");
+    
     rclcpp::Rate rate(1000);
     while (rclcpp::ok())
     {
         rclcpp::spin_some(node);
         rate.sleep();
     }
+
     rclcpp::shutdown();
     g_ioc.stop();
     io_thread.join();
+
     return 0;
 }

@@ -25,17 +25,16 @@ int main(int argc, char ** argv)
         g_ioc.run();
     });
 
-    RCLCPP_INFO(node->get_logger(), "TofSenseM节点已启动，串口运行在异步模式");
     rclcpp::Rate loop_rate(1000);
     while (rclcpp::ok())
     {
         rclcpp::spin_some(node);
         loop_rate.sleep();
     }
-    RCLCPP_INFO(node->get_logger(), "正在关闭节点...");
+
     rclcpp::shutdown();
     g_ioc.stop();
     io_thread.join();
-    RCLCPP_INFO(node->get_logger(), "节点已安全关闭");
+
     return EXIT_SUCCESS;
 }

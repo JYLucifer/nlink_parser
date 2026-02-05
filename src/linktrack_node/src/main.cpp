@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
     auto serial = initSerial(node, [&protocol_extraction](const std::string & data)
     {
         protocol_extraction.AddNewData(data);
-        printHexData(data);
+        //printHexData(data);
     });
 
     linktrack::Init init(node, &protocol_extraction, serial.get());
@@ -43,8 +43,6 @@ int main(int argc, char ** argv)
         g_ioc.run();
     });
 
-    RCLCPP_INFO(node->get_logger(), "LinkTrack节点已启动，串口运行在异步模式");
-
     rclcpp::Rate loop_rate(1000);
     while (rclcpp::ok())
     {
@@ -52,11 +50,9 @@ int main(int argc, char ** argv)
         loop_rate.sleep();
     }
 
-    RCLCPP_INFO(node->get_logger(), "正在关闭LinkTrack节点...");
     rclcpp::shutdown();
     g_ioc.stop();
     io_thread.join();
 
-    RCLCPP_INFO(node->get_logger(), "LinkTrack节点已安全关闭");
     return EXIT_SUCCESS;
 }

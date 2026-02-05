@@ -51,25 +51,30 @@ void Init::InitFrame0(std::shared_ptr<NProtocolExtracter> protocol_extraction)
     static auto protocol = std::make_shared<ProtocolFrame0>();
     protocol_extraction->AddProtocol(protocol.get());
 
-    auto topic = "nlink_tofsensem_frame0";
-    publishers_[protocol.get()] = node_->create_publisher<nlink_parser::msg::TofsenseMFrame0>(topic, 10);
-    RCLCPP_INFO(node_->get_logger(), "Topic %s advertised", topic);
-
-    protocol->SetHandleDataCallback([=]
+    protocol->SetHandleDataCallback([this, protocol_ptr = protocol.get()]()
     {
-        const auto & data = g_ntsm_frame0;
+        if (!publishers_[protocol_ptr])
+        {
+            auto topic = "nlink_tofsensem_frame0";
+            publishers_[protocol_ptr] = node_->create_publisher<nlink_parser::msg::TofsenseMFrame0>(topic, 50);
+            TopicAdvertisedTip(topic);  
+        }
+
+        const auto &data = g_ntsm_frame0;
         g_msg_tofmframe0.id = data.id;
         g_msg_tofmframe0.system_time = data.system_time;
         g_msg_tofmframe0.pixels.resize(data.pixel_count);
+        
         for (int i = 0; i < data.pixel_count; ++i)
         {
-            const auto & src_pixel = data.pixels[i];
-            auto & pixel = g_msg_tofmframe0.pixels[i];
+            const auto &src_pixel = data.pixels[i];
+            auto &pixel = g_msg_tofmframe0.pixels[i];
             pixel.dis = src_pixel.dis;
             pixel.dis_status = src_pixel.dis_status;
             pixel.signal_strength = src_pixel.signal_strength;
         }
-        publishers_.at(protocol.get())->publish(g_msg_tofmframe0);
+        
+        publishers_.at(protocol_ptr)->publish(g_msg_tofmframe0);
     });
 }
 

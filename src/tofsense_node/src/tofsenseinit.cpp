@@ -64,13 +64,17 @@ void Init::InitFrame0(NProtocolExtracter * protocol_extraction)
         {
             if (is_inquire_mode_)
             {
+                auto topic = "nlink_tofsense_cascade";
                 publisher_cascade_ = node_->create_publisher<nlink_parser::msg::TofsenseCascade>(
-                    "nlink_tofsense_cascade", 50);
+                    topic, 50);
+                TopicAdvertisedTip(topic);  
             }
             else
             {
+                auto topic = "nlink_tofsense_frame0";
                 publishers_frame0_[protocol_frame0_] = node_->create_publisher<nlink_parser::msg::TofsenseFrame0>(
-                    "nlink_tofsense_frame0", 50);
+                    topic, 50);
+                TopicAdvertisedTip(topic);  
             }
         }
 
@@ -135,6 +139,7 @@ void Init::InitFrame0(NProtocolExtracter * protocol_extraction)
                     ++node_index_;
                 }
             });
+        timer_read_->cancel();  
     }
 }
 
