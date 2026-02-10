@@ -6,20 +6,19 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
     declare_port_name_arg = DeclareLaunchArgument(
         'port_name',
-        default_value='/dev/ttyACM0',  
-        description='TOFSense串口设备路径，例如 /dev/ttyACM0 或 /dev/ttyUSB0'
+        default_value='/dev/ttyCH343USB0'
     )
     
     declare_baud_rate_arg = DeclareLaunchArgument(
         'baud_rate',
         default_value='921600',
-        description='TOFSense串口通信波特率'
+        description='Serial baud rate'
     )
     
     declare_inquire_mode_arg = DeclareLaunchArgument(
         'inquire_mode',
         default_value='false',
-        description='是否开启查询模式'
+        description='Whether to enable query mode'
     )
 
     tofsense_node = Node(

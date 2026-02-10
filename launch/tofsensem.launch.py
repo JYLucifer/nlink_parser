@@ -7,12 +7,11 @@ def generate_launch_description():
     declare_port_name_arg = DeclareLaunchArgument(
         'port_name',
         default_value='/dev/ttyCH343USB0',  
-        description='串口设备路径，例如 /dev/ttyUSB0 或 /dev/ttyCH343USB0'
     )
     declare_baud_rate_arg = DeclareLaunchArgument(
         'baud_rate',
         default_value='921600',
-        description='串口通信波特率'
+        description='Serial baud rate'
     )
 
     tofsensem_node = Node(

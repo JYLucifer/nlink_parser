@@ -7,8 +7,7 @@ def generate_launch_description():
 
     port_name_arg = DeclareLaunchArgument(
         'port_name',
-        default_value='/dev/ttyACM0',  
-        description='Path to the serial port device, e.g., /dev/ttyACM0'
+        default_value='/dev/ttyCH343USB0'
     )
 
     baud_rate_arg = DeclareLaunchArgument(
@@ -17,19 +16,14 @@ def generate_launch_description():
         description='Serial baud rate'
     )
 
-    port_name = LaunchConfiguration('port_name')
-    baud_rate = LaunchConfiguration('baud_rate')
-
     linktrack_aoa_node = Node(
         package='nlink_parser',
         executable='linktrack_aoa_node',
         name='linktrack_aoa0',
         output='screen',
         parameters=[
-            {
-                'port_name': port_name,
-                'baud_rate': baud_rate,
-            }
+            {'port_name': LaunchConfiguration('port_name')},
+            {'baud_rate': LaunchConfiguration('baud_rate')}
         ]
     )
 

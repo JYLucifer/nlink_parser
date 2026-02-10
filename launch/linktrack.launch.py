@@ -7,13 +7,13 @@ def generate_launch_description():
 
     port_name_arg = DeclareLaunchArgument(
         'port_name',
-        default_value='/dev/ttyACM0',  
-        description='Path to the serial port device, e.g., /dev/ttyACM0'
+        default_value='/dev/ttyCH343USB0'
     )
+
     baud_rate_arg = DeclareLaunchArgument(
         'baud_rate',
         default_value='921600',  
-        description='Baud rate for serial communication, e.g., 921600'
+        description='Serial baud rate'
     )
 
     linktrack_node = Node(
