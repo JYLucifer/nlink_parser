@@ -58,6 +58,7 @@
 
 ### Building
 按如下步骤克隆代码并编译
+
     sudo apt install python3-colcon-common-extensions
     mkdir -p ~/nooploop_ws/src
     cd ~/nooploop_ws/src
@@ -65,6 +66,7 @@
     cd ~/nooploop_ws
     colcon build --symlink-install
     source install/setup.bash
+
 注意，每次打开新命令行窗口都需要执行 `source install/setup.bash` 重新获取该ROS2工作空间环境变量.
 
 ## Products Usage
@@ -72,6 +74,7 @@
 ### LinkTrack
 
 运行
+
     ros2 launch nlink_parser2 linktrack.launch.py
 
 参数
@@ -80,6 +83,7 @@
 
 说明:
     可直接在命令行更改参数
+
     ros2 launch nlink_parser2 linktrack.launch.py port_name:=/dev/ttyCH343USB0 baud_rate:=921600
 
 订阅的话题
@@ -117,6 +121,7 @@
 
 说明:
     可直接在命令行更改参数
+
     ros2 launch nlink_parser2 linktrack_aoa.launch.py port_name:=/dev/ttyCH343USB0 baud_rate:=921600
 
 订阅的话题
@@ -144,6 +149,7 @@
   
 说明:
     可直接在命令行更改参数
+
     ros2 launch nlink_parser2 tofsense.launch.py port_name:=/dev/ttyCH343USB0 baud_rate:=921600
 
 发布的话题
@@ -163,6 +169,7 @@
 
 说明:
     可直接在命令行更改参数
+    
     ros2 launch nlink_parser2 tofsensem.launch.py port_name:=/dev/ttyCH343USB0  baud_rate:=921600
 
 发布的话题
