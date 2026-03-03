@@ -9,8 +9,8 @@
 namespace linktrack_aoa
 {
 std::map<NLinkProtocol*, std::shared_ptr<rclcpp::PublisherBase>> publishers_;
-nlink_parser::msg::LinktrackNodeframe0 g_msg_nodeframe0;
-nlink_parser::msg::LinktrackAoaNodeframe0 g_msg_aoa_nodeframe0;
+nlink_parser2::msg::LinktrackNodeframe0 g_msg_nodeframe0;
+nlink_parser2::msg::LinktrackAoaNodeframe0 g_msg_aoa_nodeframe0;
 static SerialPort* g_serial = nullptr;
 
 class NLTAoa_ProtocolNodeFrame0 : public NLinkProtocolVLength
@@ -70,7 +70,7 @@ void Init::initNodeFrame0(NProtocolExtracter* protocol_extraction)
         {
             auto topic = "nlink_linktrack_nodeframe0";
             publishers_[protocol] =
-                node_->create_publisher<nlink_parser::msg::LinktrackNodeframe0>(topic, 200);
+                node_->create_publisher<nlink_parser2::msg::LinktrackNodeframe0>(topic, 200);
             TopicAdvertisedTip(topic);
         }
 
@@ -94,7 +94,7 @@ void Init::initNodeFrame0(NProtocolExtracter* protocol_extraction)
         }
 
         auto pub = std::dynamic_pointer_cast<
-            rclcpp::Publisher<nlink_parser::msg::LinktrackNodeframe0>>(publishers_[protocol]);
+            rclcpp::Publisher<nlink_parser2::msg::LinktrackNodeframe0>>(publishers_[protocol]);
 
         if (pub)
         {
@@ -114,7 +114,7 @@ void Init::initAoaNodeFrame0(NProtocolExtracter* protocol_extraction)
         {
             auto topic = "nlink_linktrack_aoa_nodeframe0";
             publishers_[protocol] =
-                node_->create_publisher<nlink_parser::msg::LinktrackAoaNodeframe0>(topic, 200);
+                node_->create_publisher<nlink_parser2::msg::LinktrackAoaNodeframe0>(topic, 200);
             TopicAdvertisedTip(topic);
         }
 
@@ -143,7 +143,7 @@ void Init::initAoaNodeFrame0(NProtocolExtracter* protocol_extraction)
         }
 
         auto pub = std::dynamic_pointer_cast<
-            rclcpp::Publisher<nlink_parser::msg::LinktrackAoaNodeframe0>>(publishers_[protocol]);
+            rclcpp::Publisher<nlink_parser2::msg::LinktrackAoaNodeframe0>>(publishers_[protocol]);
 
         if (pub)
         {

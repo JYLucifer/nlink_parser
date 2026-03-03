@@ -17,7 +17,7 @@ def generate_launch_description():
     )
 
     linktrack_aoa_node = Node(
-        package='nlink_parser',
+        package='nlink_parser2',
         executable='linktrack_aoa_node',
         name='linktrack_aoa0',
         output='screen',

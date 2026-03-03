@@ -29,7 +29,7 @@ void NTS_ProtocolFrame0::UnpackFrameData(const uint8_t * data)
 
 namespace tofsense
 {
-static nlink_parser::msg::TofsenseFrame0 g_msg_frame0;
+static nlink_parser2::msg::TofsenseFrame0 g_msg_frame0;
 
 #pragma pack(push, 1)
 struct
@@ -65,14 +65,14 @@ void Init::InitFrame0(NProtocolExtracter * protocol_extraction)
             if (is_inquire_mode_)
             {
                 auto topic = "nlink_tofsense_cascade";
-                publisher_cascade_ = node_->create_publisher<nlink_parser::msg::TofsenseCascade>(
+                publisher_cascade_ = node_->create_publisher<nlink_parser2::msg::TofsenseCascade>(
                     topic, 50);
                 TopicAdvertisedTip(topic);  
             }
             else
             {
                 auto topic = "nlink_tofsense_frame0";
-                publishers_frame0_[protocol_frame0_] = node_->create_publisher<nlink_parser::msg::TofsenseFrame0>(
+                publishers_frame0_[protocol_frame0_] = node_->create_publisher<nlink_parser2::msg::TofsenseFrame0>(
                     topic, 50);
                 TopicAdvertisedTip(topic);  
             }
@@ -116,7 +116,7 @@ void Init::InitFrame0(NProtocolExtracter * protocol_extraction)
                 {
                     if (!frame0_map_.empty())
                     {
-                        nlink_parser::msg::TofsenseCascade msg;
+                        nlink_parser2::msg::TofsenseCascade msg;
                         for (const auto & kv : frame0_map_)
                         {
                             msg.nodes.push_back(kv.second);

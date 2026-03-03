@@ -36,7 +36,7 @@ protected:
 
 namespace tofsensem
 {
-nlink_parser::msg::TofsenseMFrame0 g_msg_tofmframe0;
+nlink_parser2::msg::TofsenseMFrame0 g_msg_tofmframe0;
 
 Init::Init(
     std::shared_ptr<NProtocolExtracter> protocol_extraction,
@@ -56,7 +56,7 @@ void Init::InitFrame0(std::shared_ptr<NProtocolExtracter> protocol_extraction)
         if (!publishers_[protocol_ptr])
         {
             auto topic = "nlink_tofsensem_frame0";
-            publishers_[protocol_ptr] = node_->create_publisher<nlink_parser::msg::TofsenseMFrame0>(topic, 50);
+            publishers_[protocol_ptr] = node_->create_publisher<nlink_parser2::msg::TofsenseMFrame0>(topic, 50);
             TopicAdvertisedTip(topic);  
         }
 

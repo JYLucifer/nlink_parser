@@ -5,8 +5,8 @@
 #include <map>
 #include <unordered_map>
 #include "nprotocol_extracter.h"
-#include "nlink_parser/msg/tofsense_frame0.hpp"
-#include "nlink_parser/msg/tofsense_cascade.hpp"
+#include "nlink_parser2/msg/tofsense_frame0.hpp"
+#include "nlink_parser2/msg/tofsense_cascade.hpp"
 
 class SerialPort;
 
@@ -27,11 +27,11 @@ private:
     SerialPort *serial_;
     std::unordered_map<
         NProtocolBase *,
-        rclcpp::Publisher<nlink_parser::msg::TofsenseFrame0>::SharedPtr>
+        rclcpp::Publisher<nlink_parser2::msg::TofsenseFrame0>::SharedPtr>
         publishers_frame0_;
 
-    rclcpp::Publisher<nlink_parser::msg::TofsenseCascade>::SharedPtr publisher_cascade_;
-    std::map<int, nlink_parser::msg::TofsenseFrame0> frame0_map_;
+    rclcpp::Publisher<nlink_parser2::msg::TofsenseCascade>::SharedPtr publisher_cascade_;
+    std::map<int, nlink_parser2::msg::TofsenseFrame0> frame0_map_;
 
     const int frequency_ = 10;
     bool is_inquire_mode_ = true;

@@ -15,7 +15,7 @@ def generate_launch_description():
     )
 
     tofsensem_node = Node(
-        package='nlink_parser',     
+        package='nlink_parser2',     
         executable='tofsensem_node', 
         name='tofsensem0',          
         output='screen',            

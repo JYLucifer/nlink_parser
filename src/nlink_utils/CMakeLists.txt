@@ -70,6 +70,6 @@ target_link_libraries(nlink_utils
 )
 
 add_dependencies(nlink_utils
-  nlink_parser__rosidl_generator_cpp
-  nlink_parser__rosidl_typesupport_cpp
+  nlink_parser2__rosidl_generator_cpp
+  nlink_parser2__rosidl_typesupport_cpp
 )

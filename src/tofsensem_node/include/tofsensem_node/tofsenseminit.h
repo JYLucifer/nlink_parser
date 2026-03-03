@@ -2,7 +2,7 @@
 #define TOFSENSEMINIT_H
 
 #include "nprotocol_extracter.h"
-#include "nlink_parser/msg/tofsense_m_frame0.hpp"
+#include "nlink_parser2/msg/tofsense_m_frame0.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <unordered_map>
 #include <memory>
@@ -19,7 +19,7 @@ public:
 private:
     void InitFrame0(std::shared_ptr<NProtocolExtracter> protocol_extraction);
 
-    std::unordered_map<NProtocolBase *, rclcpp::Publisher<nlink_parser::msg::TofsenseMFrame0>::SharedPtr> publishers_;
+    std::unordered_map<NProtocolBase *, rclcpp::Publisher<nlink_parser2::msg::TofsenseMFrame0>::SharedPtr> publishers_;
     std::shared_ptr<rclcpp::Node> node_;
 };
 

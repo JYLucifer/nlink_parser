@@ -17,7 +17,7 @@ def generate_launch_description():
     )
 
     linktrack_node = Node(
-        package='nlink_parser',
+        package='nlink_parser2',
         executable='linktrack_node',
         name='linktrack0',
         output='screen',
