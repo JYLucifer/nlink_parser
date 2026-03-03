@@ -169,7 +169,7 @@
 
 说明:
     可直接在命令行更改参数
-    
+
     ros2 launch nlink_parser2 tofsensem.launch.py port_name:=/dev/ttyCH343USB0  baud_rate:=921600
 
 发布的话题
@@ -204,7 +204,7 @@
 ## FAQ
 - 运行 `ros2 topic echo ...` 查看话题数据，提示"ERROR: Cannot load message class for ... Are your messages built
   
-  如果已经编译通过，请运行  `{$ros_workspace}/**install**/setup.sh` 以添加环境变量，其中{$ros_workspace}表示当前ros包所在的工作空间目录。
+  如果已经编译通过，请运行  `{$ros2_workspace}/**install**/setup.bash` 以添加环境变量，其中{$ros2_workspace}表示当前ros包所在的工作空间目录。
 
 - 运行节点提示 "error while loading shared libraries: libserial.so: Cannot open shared object file: No such file or directory"
   
